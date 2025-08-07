@@ -5,8 +5,10 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Upload, FileText, Sparkles, Clock, Target, ArrowRight, ArrowLeft, CheckCircle, MessageCircle, X } from 'lucide-react';
+import { Upload, FileText, Sparkles, Clock, Target, ArrowRight, ArrowLeft, CheckCircle, MessageCircle, X, Send } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
 import FileUpload from './FileUpload';
+import backend from '~backend/client';
 
 interface WritingFormProps {
   onSubmit: (data: WritingFormData) => void;
@@ -20,6 +22,12 @@ export interface WritingFormData {
   referenceFileUrl?: string;
 }
 
+interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+  timestamp: Date;
+}
+
 const STEPS = [
   { id: 1, title: 'Topic', description: 'Define your academic topic' },
   { id: 2, title: 'Instructions', description: 'Provide writing requirements' },
@@ -30,6 +38,18 @@ const STEPS = [
 export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [showChatBot, setShowChatBot] = useState(false);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
+    {
+      role: "assistant",
+      content: "Hi! I'm your AI writing assistant. I'm here to help you create an excellent academic paper. What can I help you with?",
+      timestamp: new Date()
+    }
+  ]);
+  const [currentMessage, setCurrentMessage] = useState('');
+  const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const { toast } = useToast();
+  
   const [formData, setFormData] = useState<WritingFormData>({
     topic: '',
     instructions: '',
@@ -74,35 +94,60 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
 
   const canProceed = isStepValid(currentStep);
 
-  const getStepSuggestions = (step: number) => {
-    switch (step) {
-      case 1:
-        return [
-          "Need help choosing a topic? I can suggest relevant academic topics based on your field of study.",
-          "Make sure your topic is specific enough to be manageable but broad enough to find sufficient research.",
-          "Consider current trends and debates in your field for a more engaging paper."
-        ];
-      case 2:
-        return [
-          "Include your preferred citation style (APA, MLA, Chicago, etc.) in the instructions.",
-          "Specify your academic level (undergraduate, graduate, PhD) for appropriate complexity.",
-          "Mention any specific sources or perspectives you want included or avoided."
-        ];
-      case 3:
-        return [
-          "Consider your assignment requirements when choosing word count.",
-          "Longer papers allow for more detailed analysis and multiple perspectives.",
-          "Remember that quality is more important than quantity - choose what fits your needs."
-        ];
-      case 4:
-        return [
-          "Reference documents help me understand your preferred style and approach.",
-          "Upload relevant research papers, course materials, or assignment guidelines.",
-          "This step is optional but can significantly improve the quality of your paper."
-        ];
-      default:
-        return ["I'm here to help you create the best academic paper possible!"];
+  const sendMessage = async (message: string) => {
+    if (!message.trim() || isSendingMessage) return;
+
+    const userMessage: ChatMessage = {
+      role: "user",
+      content: message,
+      timestamp: new Date()
+    };
+
+    setChatMessages(prev => [...prev, userMessage]);
+    setCurrentMessage('');
+    setIsSendingMessage(true);
+
+    try {
+      const response = await backend.writing.chatWithAssistant({
+        message,
+        context: {
+          currentStep,
+          topic: formData.topic,
+          instructions: formData.instructions,
+          wordCount: formData.wordCount
+        },
+        chatHistory: chatMessages
+      });
+
+      const assistantMessage: ChatMessage = {
+        role: "assistant",
+        content: response.message,
+        timestamp: new Date()
+      };
+
+      setChatMessages(prev => [...prev, assistantMessage]);
+      if (response.suggestions) {
+        setSuggestions(response.suggestions);
+      }
+    } catch (error) {
+      console.error('Chat error:', error);
+      toast({
+        title: "Chat error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSendingMessage(false);
     }
+  };
+
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    sendMessage(currentMessage);
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    sendMessage(suggestion);
   };
 
   return (
@@ -607,9 +652,9 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
       {/* AI Chat Assistant Popup */}
       {showChatBot && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[80vh] overflow-hidden animate-in zoom-in-95 duration-300">
+          <div className="bg-white rounded-lg shadow-xl max-w-lg w-full max-h-[80vh] overflow-hidden animate-in zoom-in-95 duration-300 flex flex-col">
             {/* Header */}
-            <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 flex items-center justify-between">
+            <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 flex items-center justify-between flex-shrink-0">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                   <MessageCircle className="h-4 w-4" />
@@ -629,54 +674,82 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
               </Button>
             </div>
 
-            {/* Content */}
-            <div className="p-4 space-y-4 max-h-96 overflow-y-auto">
-              <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg border border-purple-200">
-                <p className="text-sm font-medium text-purple-800 mb-2">
-                  💡 Step {currentStep} Suggestions:
-                </p>
-                <div className="space-y-2">
-                  {getStepSuggestions(currentStep).map((suggestion, index) => (
-                    <p key={index} className="text-sm text-purple-700">
-                      • {suggestion}
+            {/* Chat Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
+              {chatMessages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[80%] p-3 rounded-lg ${
+                      message.role === 'user'
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-gray-100 text-gray-800'
+                    }`}
+                  >
+                    <p className="text-sm">{message.content}</p>
+                    <p className={`text-xs mt-1 ${
+                      message.role === 'user' ? 'text-blue-100' : 'text-gray-500'
+                    }`}>
+                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
+                  </div>
+                </div>
+              ))}
+              
+              {isSendingMessage && (
+                <div className="flex justify-start">
+                  <div className="bg-gray-100 text-gray-800 p-3 rounded-lg">
+                    <div className="flex items-center space-x-1">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Quick Suggestions */}
+            {suggestions.length > 0 && (
+              <div className="px-4 pb-2">
+                <p className="text-xs text-gray-500 mb-2">Quick suggestions:</p>
+                <div className="flex flex-wrap gap-2">
+                  {suggestions.map((suggestion, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      className="text-xs h-7 px-2 border-purple-200 text-purple-700 hover:bg-purple-50"
+                      disabled={isSendingMessage}
+                    >
+                      {suggestion}
+                    </Button>
                   ))}
                 </div>
               </div>
+            )}
 
-              <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
-                <p className="text-sm font-medium text-blue-800 mb-2">
-                  🤖 Quick Tips:
-                </p>
-                <div className="space-y-1 text-sm text-blue-700">
-                  <p>• Be as specific as possible in your requirements</p>
-                  <p>• Include your academic level for appropriate complexity</p>
-                  <p>• Mention any specific sources or perspectives needed</p>
-                  <p>• Don't forget to specify your citation style</p>
-                </div>
-              </div>
-
-              <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-                <p className="text-sm font-medium text-green-800 mb-2">
-                  ✨ Pro Features:
-                </p>
-                <div className="space-y-1 text-sm text-green-700">
-                  <p>• 100% original content generation</p>
-                  <p>• Automatic plagiarism checking</p>
-                  <p>• Human-like writing style</p>
-                  <p>• Professional PDF formatting</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Footer */}
-            <div className="border-t border-gray-200 p-4">
-              <Button
-                onClick={() => setShowChatBot(false)}
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
-              >
-                Got it, thanks!
-              </Button>
+            {/* Message Input */}
+            <div className="border-t border-gray-200 p-4 flex-shrink-0">
+              <form onSubmit={handleSendMessage} className="flex gap-2">
+                <Input
+                  value={currentMessage}
+                  onChange={(e) => setCurrentMessage(e.target.value)}
+                  placeholder="Ask me anything about academic writing..."
+                  disabled={isSendingMessage}
+                  className="flex-1 border-gray-200 focus:border-purple-500 focus:ring-purple-500"
+                />
+                <Button
+                  type="submit"
+                  disabled={!currentMessage.trim() || isSendingMessage}
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-4"
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </form>
             </div>
           </div>
         </div>
