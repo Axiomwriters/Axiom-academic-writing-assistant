@@ -160,6 +160,50 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                 </p>
               </div>
 
+              {/* Navigation Buttons */}
+              <div className="flex justify-between pt-4 border-t border-gray-200">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handlePrevious}
+                  disabled={currentStep === 1}
+                  className="flex items-center gap-2"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Previous
+                </Button>
+
+                {currentStep < STEPS.length ? (
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!canProceed}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center gap-2"
+                  >
+                    Next
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    disabled={isLoading || !formData.topic || !formData.instructions}
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:transform-none disabled:opacity-50"
+                  >
+                    {isLoading ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Generating Your Paper...
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        Generate Academic Paper
+                      </div>
+                    )}
+                  </Button>
+                )}
+              </div>
+
               <div className="bg-blue-50 p-4 rounded-lg">
                 <h4 className="font-medium text-blue-900 mb-2">💡 Topic Tips:</h4>
                 <ul className="text-sm text-blue-800 space-y-1">
@@ -201,6 +245,50 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                 <p className="text-xs text-gray-500">
                   The more detailed your instructions, the better the AI can tailor the content
                 </p>
+              </div>
+
+              {/* Navigation Buttons */}
+              <div className="flex justify-between pt-4 border-t border-gray-200">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handlePrevious}
+                  disabled={currentStep === 1}
+                  className="flex items-center gap-2"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Previous
+                </Button>
+
+                {currentStep < STEPS.length ? (
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!canProceed}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center gap-2"
+                  >
+                    Next
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    disabled={isLoading || !formData.topic || !formData.instructions}
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:transform-none disabled:opacity-50"
+                  >
+                    {isLoading ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Generating Your Paper...
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        Generate Academic Paper
+                      </div>
+                    )}
+                  </Button>
+                )}
               </div>
 
               <div className="bg-green-50 p-4 rounded-lg">
@@ -261,6 +349,50 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                 </div>
               </div>
 
+              {/* Navigation Buttons */}
+              <div className="flex justify-between pt-4 border-t border-gray-200">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handlePrevious}
+                  disabled={currentStep === 1}
+                  className="flex items-center gap-2"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Previous
+                </Button>
+
+                {currentStep < STEPS.length ? (
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!canProceed}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center gap-2"
+                  >
+                    Next
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    disabled={isLoading || !formData.topic || !formData.instructions}
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:transform-none disabled:opacity-50"
+                  >
+                    {isLoading ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Generating Your Paper...
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        Generate Academic Paper
+                      </div>
+                    )}
+                  </Button>
+                )}
+              </div>
+
               <div className="bg-purple-50 p-4 rounded-lg">
                 <h4 className="font-medium text-purple-900 mb-2">📊 Word Count Guide:</h4>
                 <div className="grid grid-cols-2 gap-4 text-sm text-purple-800">
@@ -304,6 +436,50 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                 </p>
               </div>
 
+              {/* Navigation Buttons */}
+              <div className="flex justify-between pt-4 border-t border-gray-200">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handlePrevious}
+                  disabled={currentStep === 1}
+                  className="flex items-center gap-2"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Previous
+                </Button>
+
+                {currentStep < STEPS.length ? (
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!canProceed}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center gap-2"
+                  >
+                    Next
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    disabled={isLoading || !formData.topic || !formData.instructions}
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:transform-none disabled:opacity-50"
+                  >
+                    {isLoading ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Generating Your Paper...
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        Generate Academic Paper
+                      </div>
+                    )}
+                  </Button>
+                )}
+              </div>
+
               <div className="bg-yellow-50 p-4 rounded-lg">
                 <h4 className="font-medium text-yellow-900 mb-2">📎 Supported Files:</h4>
                 <ul className="text-sm text-yellow-800 space-y-1">
@@ -339,50 +515,6 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
               </div>
             </div>
           )}
-
-          {/* Navigation Buttons */}
-          <div className="flex justify-between pt-6 border-t border-gray-200">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handlePrevious}
-              disabled={currentStep === 1}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Previous
-            </Button>
-
-            {currentStep < STEPS.length ? (
-              <Button
-                type="button"
-                onClick={handleNext}
-                disabled={!canProceed}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center gap-2"
-              >
-                Next
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            ) : (
-              <Button
-                type="submit"
-                disabled={isLoading || !formData.topic || !formData.instructions}
-                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:transform-none disabled:opacity-50"
-              >
-                {isLoading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Generating Your Paper...
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4" />
-                    Generate Academic Paper
-                  </div>
-                )}
-              </Button>
-            )}
-          </div>
         </form>
       </CardContent>
     </Card>
