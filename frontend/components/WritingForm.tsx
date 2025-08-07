@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Upload, FileText, Sparkles, Clock, Target, ArrowRight, ArrowLeft, CheckCircle, MessageCircle, X, Send } from 'lucide-react';
+import { Upload, FileText, Sparkles, Clock, Target, ArrowRight, ArrowLeft, CheckCircle, MessageCircle, X, Send, BookOpen, User, Calendar, Hash } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import FileUpload from './FileUpload';
 import backend from '~backend/client';
@@ -481,6 +481,72 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Reference Documents</h3>
                   <p className="text-sm text-gray-600">Upload supporting materials (optional)</p>
                 </div>
+
+                {/* Paper Summary Container */}
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6 mb-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <BookOpen className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <h4 className="text-lg font-semibold text-blue-900">Review Your Paper</h4>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-blue-100">
+                        <div className="flex items-center gap-2 mb-2">
+                          <FileText className="h-4 w-4 text-blue-600" />
+                          <span className="text-sm font-medium text-blue-800">Topic</span>
+                        </div>
+                        <p className="text-sm text-gray-700 font-medium">
+                          {formData.topic || 'Not specified'}
+                        </p>
+                      </div>
+                      
+                      <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-blue-100">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Hash className="h-4 w-4 text-blue-600" />
+                          <span className="text-sm font-medium text-blue-800">Word Count</span>
+                        </div>
+                        <p className="text-sm text-gray-700 font-medium">
+                          {formData.wordCount.toLocaleString()} words
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-blue-100">
+                      <div className="flex items-center gap-2 mb-2">
+                        <User className="h-4 w-4 text-blue-600" />
+                        <span className="text-sm font-medium text-blue-800">Instructions</span>
+                      </div>
+                      <p className="text-sm text-gray-700 line-clamp-3">
+                        {formData.instructions || 'No specific instructions provided'}
+                      </p>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-blue-100">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Clock className="h-4 w-4 text-blue-600" />
+                          <span className="text-sm font-medium text-blue-800">Reading Time</span>
+                        </div>
+                        <p className="text-sm text-gray-700 font-medium">
+                          {Math.ceil(formData.wordCount / 200)} minutes
+                        </p>
+                      </div>
+                      
+                      <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-blue-100">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Calendar className="h-4 w-4 text-blue-600" />
+                          <span className="text-sm font-medium text-blue-800">Reference Document</span>
+                        </div>
+                        <p className="text-sm text-gray-700 font-medium">
+                          {formData.referenceFileUrl ? 'Uploaded' : 'None'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 
                 <div className="space-y-2">
                   <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
@@ -548,30 +614,6 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                     <li>• Text files (.txt)</li>
                     <li>• Maximum file size: 10MB</li>
                   </ul>
-                </div>
-
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-medium text-gray-900 mb-3">📋 Summary of Your Paper:</h4>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Topic:</span>
-                      <span className="font-medium text-gray-900 max-w-xs text-right">{formData.topic}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Word Count:</span>
-                      <span className="font-medium text-gray-900">{formData.wordCount.toLocaleString()} words</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Reading Time:</span>
-                      <span className="font-medium text-gray-900">{Math.ceil(formData.wordCount / 200)} minutes</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Reference File:</span>
-                      <span className="font-medium text-gray-900">
-                        {formData.referenceFileUrl ? 'Uploaded' : 'None'}
-                      </span>
-                    </div>
-                  </div>
                 </div>
               </div>
             )}
