@@ -251,35 +251,15 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                     Previous
                   </Button>
 
-                  {currentStep < STEPS.length ? (
-                    <Button
-                      type="button"
-                      onClick={handleNext}
-                      disabled={!canProceed}
-                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center gap-2"
-                    >
-                      Next
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  ) : (
-                    <Button
-                      type="submit"
-                      disabled={isLoading || !formData.topic || !formData.instructions}
-                      className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:transform-none disabled:opacity-50"
-                    >
-                      {isLoading ? (
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          Generating Your Paper...
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <FileText className="h-4 w-4" />
-                          Generate Academic Paper
-                        </div>
-                      )}
-                    </Button>
-                  )}
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!canProceed}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center gap-2"
+                  >
+                    Next
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
                 </div>
 
                 {/* AI Chat Assistant Button */}
@@ -351,35 +331,15 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                     Previous
                   </Button>
 
-                  {currentStep < STEPS.length ? (
-                    <Button
-                      type="button"
-                      onClick={handleNext}
-                      disabled={!canProceed}
-                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center gap-2"
-                    >
-                      Next
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  ) : (
-                    <Button
-                      type="submit"
-                      disabled={isLoading || !formData.topic || !formData.instructions}
-                      className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:transform-none disabled:opacity-50"
-                    >
-                      {isLoading ? (
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          Generating Your Paper...
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <FileText className="h-4 w-4" />
-                          Generate Academic Paper
-                        </div>
-                      )}
-                    </Button>
-                  )}
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!canProceed}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center gap-2"
+                  >
+                    Next
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
                 </div>
 
                 {/* AI Chat Assistant Button */}
@@ -466,35 +426,15 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                     Previous
                   </Button>
 
-                  {currentStep < STEPS.length ? (
-                    <Button
-                      type="button"
-                      onClick={handleNext}
-                      disabled={!canProceed}
-                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center gap-2"
-                    >
-                      Next
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  ) : (
-                    <Button
-                      type="submit"
-                      disabled={isLoading || !formData.topic || !formData.instructions}
-                      className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:transform-none disabled:opacity-50"
-                    >
-                      {isLoading ? (
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          Generating Your Paper...
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <FileText className="h-4 w-4" />
-                          Generate Academic Paper
-                        </div>
-                      )}
-                    </Button>
-                  )}
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!canProceed}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center gap-2"
+                  >
+                    Next
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
                 </div>
 
                 {/* AI Chat Assistant Button */}
@@ -566,35 +506,25 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                     Previous
                   </Button>
 
-                  {currentStep < STEPS.length ? (
-                    <Button
-                      type="button"
-                      onClick={handleNext}
-                      disabled={!canProceed}
-                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center gap-2"
-                    >
-                      Next
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  ) : (
-                    <Button
-                      type="submit"
-                      disabled={isLoading || !formData.topic || !formData.instructions}
-                      className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:transform-none disabled:opacity-50"
-                    >
-                      {isLoading ? (
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          Generating Your Paper...
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <FileText className="h-4 w-4" />
-                          Generate Academic Paper
-                        </div>
-                      )}
-                    </Button>
-                  )}
+                  <Button
+                    type="submit"
+                    disabled={isLoading || !formData.topic || !formData.instructions}
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:transform-none disabled:opacity-50 flex items-center gap-2"
+                  >
+                    {isLoading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <span className="hidden sm:inline">Generating Your Paper...</span>
+                        <span className="sm:hidden">Generating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <FileText className="h-4 w-4" />
+                        <span className="hidden sm:inline">Generate Academic Paper</span>
+                        <span className="sm:hidden">Generate</span>
+                      </>
+                    )}
+                  </Button>
                 </div>
 
                 {/* AI Chat Assistant Button */}
