@@ -502,7 +502,7 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                           <FileText className="h-4 w-4 text-blue-600" />
                           <span className="text-sm font-medium text-blue-800">Topic</span>
                         </div>
-                        <p className="text-sm text-gray-700 font-medium">
+                        <p className="text-sm text-gray-700 font-medium break-words">
                           {formData.topic || 'Not specified'}
                         </p>
                       </div>
@@ -523,7 +523,7 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                         <User className="h-4 w-4 text-blue-600" />
                         <span className="text-sm font-medium text-blue-800">Instructions</span>
                       </div>
-                      <p className="text-sm text-gray-700 line-clamp-3">
+                      <p className="text-sm text-gray-700 line-clamp-3 break-words">
                         {formData.instructions || 'No specific instructions provided'}
                       </p>
                     </div>
@@ -544,8 +544,12 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                           <Calendar className="h-4 w-4 text-blue-600" />
                           <span className="text-sm font-medium text-blue-800">Reference Document</span>
                         </div>
-                        <p className="text-sm text-gray-700 font-medium">
-                          {uploadedFileName || (formData.referenceFileUrl ? 'Uploaded' : 'None')}
+                        <p className="text-sm text-gray-700 font-medium break-words">
+                          {uploadedFileName ? (
+                            <span className="truncate block" title={uploadedFileName}>
+                              {uploadedFileName.length > 20 ? `${uploadedFileName.substring(0, 20)}...` : uploadedFileName}
+                            </span>
+                          ) : (formData.referenceFileUrl ? 'Uploaded' : 'None')}
                         </p>
                       </div>
                     </div>
