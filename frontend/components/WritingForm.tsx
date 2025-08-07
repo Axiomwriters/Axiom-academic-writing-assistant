@@ -21,7 +21,7 @@ export interface WritingFormData {
 }
 
 const STEPS = [
-  { id: 1, title: 'Topic & Title', description: 'Define your academic topic' },
+  { id: 1, title: 'Topic', description: 'Define your academic topic' },
   { id: 2, title: 'Instructions', description: 'Provide writing requirements' },
   { id: 3, title: 'Configuration', description: 'Set word count and options' },
   { id: 4, title: 'Reference', description: 'Upload supporting documents' },
@@ -90,13 +90,13 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
       </CardHeader>
 
       {/* Progress Indicator */}
-      <div className="px-6 mb-6">
+      <div className="px-4 sm:px-6 mb-6">
         <div className="flex items-center justify-between">
           {STEPS.map((step, index) => (
-            <div key={step.id} className="flex items-center">
-              <div className="flex flex-col items-center">
+            <div key={step.id} className="flex items-center flex-1">
+              <div className="flex flex-col items-center w-full">
                 <div className={`
-                  flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300
+                  flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 transition-all duration-300
                   ${currentStep > step.id 
                     ? 'bg-green-500 border-green-500 text-white' 
                     : currentStep === step.id
@@ -105,9 +105,9 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                   }
                 `}>
                   {currentStep > step.id ? (
-                    <CheckCircle className="h-5 w-5" />
+                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5" />
                   ) : (
-                    <span className="text-sm font-medium">{step.id}</span>
+                    <span className="text-xs sm:text-sm font-medium">{step.id}</span>
                   )}
                 </div>
                 <div className="mt-2 text-center">
@@ -117,7 +117,7 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                   }`}>
                     {step.title}
                   </p>
-                  <p className="text-xs text-gray-400 mt-1 max-w-20">
+                  <p className="text-xs text-gray-400 mt-1 hidden sm:block">
                     {step.description}
                   </p>
                 </div>
@@ -125,7 +125,7 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
               
               {index < STEPS.length - 1 && (
                 <div className={`
-                  flex-1 h-0.5 mx-4 transition-all duration-300
+                  flex-1 h-0.5 mx-2 sm:mx-4 transition-all duration-300
                   ${currentStep > step.id ? 'bg-green-500' : 'bg-gray-300'}
                 `} />
               )}
