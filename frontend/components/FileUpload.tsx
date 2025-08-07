@@ -5,7 +5,7 @@ import { useToast } from '@/components/ui/use-toast';
 import backend from '~backend/client';
 
 interface FileUploadProps {
-  onFileUpload: (fileUrl: string) => void;
+  onFileUpload: (fileUrl: string, fileName?: string) => void;
 }
 
 export default function FileUpload({ onFileUpload }: FileUploadProps) {
@@ -55,7 +55,7 @@ export default function FileUpload({ onFileUpload }: FileUploadProps) {
           });
 
           setUploadedFile(file.name);
-          onFileUpload(response.fileUrl);
+          onFileUpload(response.fileUrl, file.name);
           
           toast({
             title: "File uploaded successfully",
@@ -86,7 +86,7 @@ export default function FileUpload({ onFileUpload }: FileUploadProps) {
 
   const removeFile = () => {
     setUploadedFile(null);
-    onFileUpload('');
+    onFileUpload('', '');
   };
 
   return (

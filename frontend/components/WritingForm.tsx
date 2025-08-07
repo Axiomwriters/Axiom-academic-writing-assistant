@@ -38,6 +38,7 @@ const STEPS = [
 export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [showChatBot, setShowChatBot] = useState(false);
+  const [uploadedFileName, setUploadedFileName] = useState<string>('');
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     {
       role: "assistant",
@@ -73,8 +74,11 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
     onSubmit(formData);
   };
 
-  const handleFileUpload = (fileUrl: string) => {
+  const handleFileUpload = (fileUrl: string, fileName?: string) => {
     setFormData(prev => ({ ...prev, referenceFileUrl: fileUrl }));
+    if (fileName) {
+      setUploadedFileName(fileName);
+    }
   };
 
   const isStepValid = (step: number) => {
@@ -541,7 +545,7 @@ export default function WritingForm({ onSubmit, isLoading }: WritingFormProps) {
                           <span className="text-sm font-medium text-blue-800">Reference Document</span>
                         </div>
                         <p className="text-sm text-gray-700 font-medium">
-                          {formData.referenceFileUrl ? 'Uploaded' : 'None'}
+                          {uploadedFileName || (formData.referenceFileUrl ? 'Uploaded' : 'None')}
                         </p>
                       </div>
                     </div>
